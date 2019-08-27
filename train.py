@@ -24,6 +24,9 @@ if __name__ == "__main__":
     train_data = data[data['date'] <= 20190707]
     test_data = data[data['date'] == 20190708]
 
+    print(len(train_data))
+    print(len(test_data))
+    print(len(data))
     # sparse_features = ['', 'user_city', 'item_id', 'author_id', 'item_city', 'channel',
     #                    'music_id', 'did', ]
     # dense_features = ['duration']  # 'creat_time',
