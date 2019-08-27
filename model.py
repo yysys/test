@@ -6,7 +6,7 @@ from deepctr.layers.interaction import CIN
 from deepctr.layers.utils import concat_fun
 
 
-def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(128, 128,),
+def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(256, 256,),
                 cin_split_half=True, init_std=0.0001,l2_reg_dnn=0, dnn_dropout=0,dnn_activation='relu', dnn_use_bn=False,
                 task_net_size=(128,), l2_reg_linear=0.00001, l2_reg_embedding=0.00001,
                 seed=1024, ):
