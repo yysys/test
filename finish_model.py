@@ -46,5 +46,5 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, d
         [linear_logit, finish_logit, exFM_logit])
 
     output_finish = PredictionLayer('binary', name='finish')(finish_logit)
-    model = tf.keras.models.Model(inputs=inputs_list, outputs=[output_finish])
+    model = tf.keras.models.Model(inputs=inputs_list, outputs=output_finish)
     return model
