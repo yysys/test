@@ -15,10 +15,15 @@ def change_time(timeStamp):
     return otherStyleTime
 
 if __name__ == "__main__":
-   data = pd.read_csv('./data/bytecamp.data', sep=',', header=0)
+    data = pd.read_csv('./data/bytecamp.data', sep=',', header=0)
    # Index(['duration', 'generate_time', 'finish', 'like', 'date', 'uid',
    #        'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id'],
    #       dtype='object')
-   data['time'] = data['generate_time'].apply(change_time)
+    data['time'] = data['generate_time'].apply(change_time)
 
-   print(data['time'].head(5))
+    train_data = data[data['time'] <= 20190707]
+    test_data = data[data['time'] == 20190708]
+
+    print(len(train_data))
+    print(len(test_data))
+    print(len(data))
