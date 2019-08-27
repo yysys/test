@@ -25,13 +25,15 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-
+    data['finish'] = data['finish'].apply(lambda x : int(x))
+    data['like'] = data['like'].apply(lambda x: int(x))
 
     sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id']
     dense_features = ['duration']
 
     data[sparse_features] = data[sparse_features].fillna('-1', )
     data[dense_features] = data[dense_features].fillna(0, )
+
 
     target = ['finish', 'like']
 
