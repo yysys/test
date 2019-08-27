@@ -4,6 +4,7 @@ import time, datetime
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import metrics
 from finish_model import xDeepFM_MTL
+import keras
 from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
 import os
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     test_model_input = [test[name] for name in feature_names]
 
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
-    model.compile(optimizer="adagrad", loss='binary_crossentropy', metrics=['binary_crossentropy'])
+    model.compile(optimizer="adagrad", loss=keras.losses.binary_crossentropy, metrics=['binary_crossentropy'])
 
     history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=20, verbose=1)
