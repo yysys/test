@@ -12,7 +12,7 @@ def change_time(timeStamp):
     dateArray = datetime.datetime.utcfromtimestamp(timeStamp)
     otherStyleTime = dateArray.strftime("%Y%m%d")
 
-    return otherStyleTime
+    return int(otherStyleTime)
 
 if __name__ == "__main__":
     data = pd.read_csv('./data/bytecamp.data', sep=',', header=0)
