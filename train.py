@@ -78,8 +78,8 @@ if __name__ == "__main__":
     print(linear_feature_columns, dnn_feature_columns)
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
     model.compile("adagrad", loss={
-                  'finish_loss': "binary_crossentropy",
-                  'like_loss': "binary_crossentropy"},
+                  'finish': "binary_crossentropy",
+                  'like': "binary_crossentropy"},
                   loss_weights=loss_weights)
 
     history = model.fit(train_model_input, train_labels,
