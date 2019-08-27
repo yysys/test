@@ -2,7 +2,7 @@ import pandas as pd
 import time, datetime
 from deepctr import SingleFeat
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-
+from sklearn import cross_validation, metrics
 from model import xDeepFM_MTL
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
@@ -60,3 +60,19 @@ if __name__ == "__main__":
     history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=1, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
+
+    # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
+    # print(test_auc)
+    #
+    # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
+    # result.rename(columns={'finish': 'finish_probability',
+    #                        'like': 'like_probability'}, inplace=True)
+    test['finish_probability'] = pred_ans[0]
+    test['like_probability'] = pred_ans[1]
+
+    test_finish_auc = metrics.roc_auc_score(test['finish'], test['finish_probability'])
+    test_like_auc = metrics.roc_auc_score(test['like'], test['like_probability'])
+    print('the auc of finish')
+    print(test_finish_auc)
+    print('the auc of like')
+    print(test_like_auc)
