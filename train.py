@@ -74,7 +74,7 @@ if __name__ == "__main__":
     print('PPPP')
     print(linear_feature_columns, dnn_feature_columns)
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
-    model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
+    model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, metrics=['binary_crossentropy'],)
 
     history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=10, verbose=1)
