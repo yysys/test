@@ -49,6 +49,9 @@ if __name__ == "__main__":
     train = data[data['date'] <= 20190707]
     test = data[data['date'] == 20190708]
 
+    train_labels = [train[target[0]].values, train[target[1]].values]
+    test_labels = [test[target[0]].values, test[target[1]].values]
+
     sparse_feature_columns = [SparseFeat(feat, data[feat].nunique())
                               for feat in sparse_features]
     dense_feature_columns = [DenseFeat(feat, 1)
@@ -73,7 +76,7 @@ if __name__ == "__main__":
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
-    history = model.fit(train_model_input, train[target].values,
+    history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=1, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
 
