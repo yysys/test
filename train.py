@@ -21,12 +21,39 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-    train_data = data[data['date'] <= 20190707]
-    test_data = data[data['date'] == 20190708]
 
-    print(len(train_data))
-    print(len(test_data))
-    print(len(data))
-    # sparse_features = ['', 'user_city', 'item_id', 'author_id', 'item_city', 'channel',
-    #                    'music_id', 'did', ]
-    # dense_features = ['duration']  # 'creat_time',
+
+    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id']
+    dense_features = ['duration']
+
+    data[sparse_features] = data[sparse_features].fillna('-1', )
+    data[dense_features] = data[dense_features].fillna(0, )
+
+    target = ['finish', 'like']
+
+    for feat in sparse_features:
+        lbe = LabelEncoder()
+        data[feat] = lbe.fit_transform(data[feat])
+    mms = MinMaxScaler(feature_range=(0, 1))
+    data[dense_features] = mms.fit_transform(data[dense_features])
+
+    sparse_feature_list = [SingleFeat(feat, data[feat].nunique())
+                           for feat in sparse_features]
+    dense_feature_list = [SingleFeat(feat, 0)
+                          for feat in dense_features]
+
+    train = data[data['date'] <= 20190707]
+    test = data[data['date'] == 20190708]
+
+    train_model_input = [train[feat.name].values for feat in sparse_feature_list] + \
+                        [train[feat.name].values for feat in dense_feature_list]
+    test_model_input = [test[feat.name].values for feat in sparse_feature_list] + \
+                       [test[feat.name].values for feat in dense_feature_list]
+
+    train_labels = [train[target[0]].values, train[target[1]].values]
+    test_labels = [test[target[0]].values, test[target[1]].values]
+
+    model = xDeepFM_MTL({"sparse": sparse_feature_list,
+                         "dense": dense_feature_list})
+    model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
+
