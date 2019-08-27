@@ -4,6 +4,7 @@ import time, datetime
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import metrics
 from model import xDeepFM_MTL
+from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]='6'
@@ -48,19 +49,29 @@ if __name__ == "__main__":
     train = data[data['date'] <= 20190707]
     test = data[data['date'] == 20190708]
 
-    train_model_input = [train[feat.name].values for feat in sparse_features] + \
-                        [train[feat.name].values for feat in dense_features]
-    test_model_input = [test[feat.name].values for feat in sparse_features] + \
-                       [test[feat.name].values for feat in dense_features]
+    sparse_feature_columns = [SparseFeat(feat, data[feat].nunique())
+                              for feat in sparse_features]
+    dense_feature_columns = [DenseFeat(feat, 1)
+                             for feat in dense_features]
 
-    train_labels = [train[target[0]].values, train[target[1]].values]
-    test_labels = [test[target[0]].values, test[target[1]].values]
+    sparse_feature_columns = [SparseFeat(feat, dimension=1e6, use_hash=True) for feat in
+                              sparse_features]  # The dimension can be set according to data
+    dense_feature_columns = [DenseFeat(feat, 1)
+                             for feat in dense_features]
 
-    model = xDeepFM_MTL({"sparse": sparse_features,
-                         "dense": dense_features})
+    dnn_feature_columns = sparse_feature_columns + dense_feature_columns
+    linear_feature_columns = sparse_feature_columns + dense_feature_columns
+
+    feature_names = get_fixlen_feature_names(linear_feature_columns + dnn_feature_columns)
+
+    train_model_input = [train[name] for name in feature_names]
+
+    test_model_input = [test[name] for name in feature_names]
+
+    model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
-    history = model.fit(train_model_input, train_labels,
+    history = model.fit(train_model_input, train[target].values,
                         batch_size=4096, epochs=1, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
 
