@@ -2,7 +2,7 @@ import pandas as pd
 import time, datetime
 from deepctr import SingleFeat
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn import cross_validation, metrics
+from sklearn import metrics
 from model import xDeepFM_MTL
 
 import os
