@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=1, verbose=1)
-    pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
+    pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
     # print(test_auc)
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     print('the auc of tes like')
     print(test_like_auc)
 
-    pred_ans = model.predict(train_model_input, batch_size=2 ** 14)
+    pred_ans = model.predict(train_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
     # print(test_auc)
