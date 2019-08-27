@@ -57,3 +57,6 @@ if __name__ == "__main__":
                          "dense": dense_feature_list})
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
+    history = model.fit(train_model_input, train_labels,
+                        batch_size=4096, epochs=1, verbose=1)
+    pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
