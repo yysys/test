@@ -38,13 +38,21 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, d
     deep_out = DNN(dnn_hidden_units, dnn_activation, l2_reg_dnn, dnn_dropout,
                    dnn_use_bn, seed)(dnn_input)
 
-    finish_out = DNN(task_net_size)(deep_out)
-    finish_logit = tf.keras.layers.Dense(
-        1, use_bias=False, activation=None)(finish_out)
+    deep_logit = tf.keras.layers.Dense(
+        1, use_bias=False, activation=None)(deep_out)
 
-    finish_logit = tf.keras.layers.add(
-        [linear_logit, finish_logit, exFM_logit])
+    if len(dnn_hidden_units) == 0 and len(cin_layer_size) == 0:  # only linear
+        final_logit = linear_logit
+    elif len(dnn_hidden_units) == 0 and len(cin_layer_size) > 0:  # linear + CIN
+        final_logit = tf.keras.layers.add([linear_logit, exFM_logit])
+    elif len(dnn_hidden_units) > 0 and len(cin_layer_size) == 0:  # linear +　Deep
+        final_logit = tf.keras.layers.add([linear_logit, deep_logit])
+    elif len(dnn_hidden_units) > 0 and len(cin_layer_size) > 0:  # linear + CIN + Deep
+        final_logit = tf.keras.layers.add(
+            [linear_logit, deep_logit, exFM_logit])
+    else:
+        raise NotImplementedError
 
-    output_finish = PredictionLayer('binary', name='finish')(finish_logit)
-    model = tf.keras.models.Model(inputs=inputs_list, outputs=output_finish)
+    output = PredictionLayer('binary')(final_logit)
+    model = tf.keras.models.Model(inputs=inputs_list, outputs=output)
     return model
