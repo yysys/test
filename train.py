@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # test_labels = [test[target[0]].values, test[target[1]].values]
 
     train_labels = [train[target[0]].values]
-    test_labels = [test[target[0]].valuess]
+    test_labels = [test[target[0]].values]
 
     sparse_feature_columns = [SparseFeat(feat, data[feat].nunique())
                               for feat in sparse_features]
