@@ -58,7 +58,7 @@ if __name__ == "__main__":
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
     history = model.fit(train_model_input, train_labels,
-                        batch_size=4096, epochs=5, verbose=1)
+                        batch_size=4096, epochs=1, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 14)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
@@ -72,7 +72,25 @@ if __name__ == "__main__":
 
     test_finish_auc = metrics.roc_auc_score(test['finish'], test['finish_probability'])
     test_like_auc = metrics.roc_auc_score(test['like'], test['like_probability'])
-    print('the auc of finish')
+    print('the auc of test finish')
     print(test_finish_auc)
-    print('the auc of like')
+    print('the auc of tes like')
     print(test_like_auc)
+
+    pred_ans = model.predict(train_model_input, batch_size=2 ** 14)
+
+    # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
+    # print(test_auc)
+    #
+    # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
+    # result.rename(columns={'finish': 'finish_probability',
+    #                        'like': 'like_probability'}, inplace=True)
+    train['finish_probability'] = pred_ans[0]
+    train['like_probability'] = pred_ans[1]
+
+    train_finish_auc = metrics.roc_auc_score(train['finish'], train['finish_probability'])
+    train_like_auc = metrics.roc_auc_score(train['like'], train['like_probability'])
+    print('the auc of train finish')
+    print(train_finish_auc)
+    print('the auc of train like')
+    print(train_like_auc)
