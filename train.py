@@ -1,12 +1,12 @@
 import pandas as pd
 import time, datetime
-from deepctr import SingleFeat
+#from deepctr import SingleFeat
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import metrics
 from model import xDeepFM_MTL
 
 import os
-# os.environ["CUDA_VISIBLE_DEVICES"]='6'
+os.environ["CUDA_VISIBLE_DEVICES"]='6'
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
@@ -40,24 +40,24 @@ if __name__ == "__main__":
     mms = MinMaxScaler(feature_range=(0, 1))
     data[dense_features] = mms.fit_transform(data[dense_features])
 
-    sparse_feature_list = [SingleFeat(feat, data[feat].nunique())
-                           for feat in sparse_features]
-    dense_feature_list = [SingleFeat(feat, 0)
-                          for feat in dense_features]
+    # sparse_feature_list = [SingleFeat(feat, data[feat].nunique())
+    #                        for feat in sparse_features]
+    # dense_feature_list = [SingleFeat(feat, 0)
+    #                       for feat in dense_features]
 
     train = data[data['date'] <= 20190707]
     test = data[data['date'] == 20190708]
 
-    train_model_input = [train[feat.name].values for feat in sparse_feature_list] + \
-                        [train[feat.name].values for feat in dense_feature_list]
-    test_model_input = [test[feat.name].values for feat in sparse_feature_list] + \
-                       [test[feat.name].values for feat in dense_feature_list]
+    train_model_input = [train[feat.name].values for feat in sparse_features] + \
+                        [train[feat.name].values for feat in dense_features]
+    test_model_input = [test[feat.name].values for feat in sparse_features] + \
+                       [test[feat.name].values for feat in dense_features]
 
     train_labels = [train[target[0]].values, train[target[1]].values]
     test_labels = [test[target[0]].values, test[target[1]].values]
 
-    model = xDeepFM_MTL({"sparse": sparse_feature_list,
-                         "dense": dense_feature_list})
+    model = xDeepFM_MTL({"sparse": sparse_features,
+                         "dense": dense_features})
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
     history = model.fit(train_model_input, train_labels,
