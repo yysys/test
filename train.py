@@ -49,8 +49,11 @@ if __name__ == "__main__":
     train = data[data['date'] <= 20190707]
     test = data[data['date'] == 20190708]
 
-    train_labels = [train[target[0]].values, train[target[1]].values]
-    test_labels = [test[target[0]].values, test[target[1]].values]
+    # train_labels = [train[target[0]].values, train[target[1]].values]
+    # test_labels = [test[target[0]].values, test[target[1]].values]
+
+    train_labels = [train[target[0]].values]
+    test_labels = [test[target[0]].valuess]
 
     sparse_feature_columns = [SparseFeat(feat, data[feat].nunique())
                               for feat in sparse_features]
