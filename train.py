@@ -57,10 +57,10 @@ if __name__ == "__main__":
     dense_feature_columns = [DenseFeat(feat, 1)
                              for feat in dense_features]
 
-    sparse_feature_columns = [SparseFeat(feat, dimension=int(1e6), use_hash=True) for feat in
-                              sparse_features]  # The dimension can be set according to data
-    dense_feature_columns = [DenseFeat(feat, 1)
-                             for feat in dense_features]
+    # sparse_feature_columns = [SparseFeat(feat, dimension=int(1e6), use_hash=True) for feat in
+    #                           sparse_features]  # The dimension can be set according to data
+    # dense_feature_columns = [DenseFeat(feat, 1)
+    #                          for feat in dense_features]
 
     dnn_feature_columns = sparse_feature_columns + dense_feature_columns
     linear_feature_columns = sparse_feature_columns + dense_feature_columns
