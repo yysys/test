@@ -68,6 +68,7 @@ if __name__ == "__main__":
 
     test_model_input = [test[name] for name in feature_names]
 
+    print(linear_feature_columns, dnn_feature_columns)
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, )
 
