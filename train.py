@@ -52,8 +52,8 @@ if __name__ == "__main__":
     # train_labels = [train[target[0]].values, train[target[1]].values]
     # test_labels = [test[target[0]].values, test[target[1]].values]
 
-    train_labels = [train[target[0]].values]
-    test_labels = [test[target[0]].values]
+    train_labels = [train[target[0]].values, train[target[1]].values]
+    test_labels = [test[target[0]].values, test[target[1]].values]
 
     sparse_feature_columns = [SparseFeat(feat, data[feat].nunique())
                               for feat in sparse_features]
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     model.compile("adagrad", "binary_crossentropy", loss_weights=loss_weights, metrics=['binary_crossentropy'],)
 
     history = model.fit(train_model_input, train_labels,
-                        batch_size=4096, epochs=5, verbose=1)
+                        batch_size=4096, epochs=20, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
