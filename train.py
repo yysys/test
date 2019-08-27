@@ -6,7 +6,7 @@ from sklearn import metrics
 from model import xDeepFM_MTL
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]='6'
+# os.environ["CUDA_VISIBLE_DEVICES"]='6'
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
