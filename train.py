@@ -19,11 +19,11 @@ if __name__ == "__main__":
    # Index(['duration', 'generate_time', 'finish', 'like', 'date', 'uid',
    #        'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id'],
    #       dtype='object')
-    data['time'] = data['generate_time'].apply(change_time)
+    # data['time'] = data['generate_time'].apply(change_time)
 
-    train_data = data[data['time'] <= 20190707]
-    test_data = data[data['time'] == 20190708]
+    train_data = data[data['date'] <= 20190707]
+    test_data = data[data['date'] == 20190708]
 
-    print(len(train_data))
-    print(len(test_data))
-    print(len(data))
+    # sparse_features = ['', 'user_city', 'item_id', 'author_id', 'item_city', 'channel',
+    #                    'music_id', 'did', ]
+    # dense_features = ['duration']  # 'creat_time',
