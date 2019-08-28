@@ -83,7 +83,7 @@ if __name__ == "__main__":
     test_model_input = [test[name] for name in feature_names]
 
     print('PPPP')
-    print(linear_feature_columns, dnn_feature_columns)
+    print()
     model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_columns)
     model.compile("adagrad", loss={
                   'finish': "binary_crossentropy",
@@ -92,9 +92,9 @@ if __name__ == "__main__":
 
     print(train_labels)
 
-    history = model.fit(train_model_input + train_y_id, train_labels,
+    history = model.fit(train_model_input, train_labels,
                         batch_size=4096, epochs=5, verbose=1, validation_split=0.1)
-    pred_ans = model.predict(test_model_input + test_y_id, batch_size=2 ** 10)
+    pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
     # print(test_auc)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     print('the auc of tes like')
     print(test_like_auc)
 
-    pred_ans = model.predict(train_model_input + train_y_id, batch_size=2 ** 10)
+    pred_ans = model.predict(train_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
     # print(test_auc)
