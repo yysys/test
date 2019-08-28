@@ -81,7 +81,7 @@ if __name__ == "__main__":
     model.compile(optimizer="adagrad", loss=keras.losses.binary_crossentropy, metrics=['binary_crossentropy'])
 
     history = model.fit(train_model_input, train_labels,
-                        batch_size=4096, epochs=10, verbose=1)
+                        batch_size=4096, epochs=5, verbose=1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
     # result.rename(columns={'finish': 'finish_probability',
     #                        'like': 'like_probability'}, inplace=True)
-    test['finish_probability'] = pred_ans[0]
+    test['finish_probability'] = pred_ans
 
     test_finish_auc = metrics.roc_auc_score(test['finish'], test['finish_probability'])
     print('the auc of test finish')
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
     # result.rename(columns={'finish': 'finish_probability',
     #                        'like': 'like_probability'}, inplace=True)
-    train['finish_probability'] = pred_ans[0]
+    train['finish_probability'] = pred_ans
 
     train_finish_auc = metrics.roc_auc_score(train['finish'], train['finish_probability'])
     print('the auc of train finish')
