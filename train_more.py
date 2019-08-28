@@ -9,7 +9,7 @@ from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]='7'
 
-loss_weights = [0.2, 0.8, ]  # [0.7,0.3]任务权重可以调下试试
+loss_weights = [0.5, 0.8, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
 
 def change_time(timeStamp):
@@ -96,12 +96,6 @@ if __name__ == "__main__":
                         batch_size=4096, epochs=2, verbose=1, validation_split=0.1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
-    # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
-    # print(test_auc)
-    #
-    # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
-    # result.rename(columns={'finish': 'finish_probability',
-    #                        'like': 'like_probability'}, inplace=True)
     test['finish_probability'] = pred_ans[0]
     test['like_probability'] = pred_ans[1]
 
@@ -114,12 +108,6 @@ if __name__ == "__main__":
 
     pred_ans = model.predict(train_model_input, batch_size=2 ** 10)
 
-    # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
-    # print(test_auc)
-    #
-    # result = test_data[['uid', 'item_id', 'finish', 'like']].copy()
-    # result.rename(columns={'finish': 'finish_probability',
-    #                        'like': 'like_probability'}, inplace=True)
     train['finish_probability'] = pred_ans[0]
     train['like_probability'] = pred_ans[1]
 
