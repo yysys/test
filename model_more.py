@@ -7,7 +7,7 @@ from deepctr.layers.utils import concat_fun
 import numpy as np
 
 
-def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, condition, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(256, 256,),
+def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(256, 256,),
                 cin_split_half=True, init_std=0.0001,l2_reg_dnn=0, dnn_dropout=0,dnn_activation='relu', dnn_use_bn=False,
                 task_net_size=(128,), l2_reg_linear=0.00001, l2_reg_embedding=0.00001,
                 seed=1024, ):
@@ -57,7 +57,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, condition, embeddin
 
     # condition = tf.placeholder("float32", shape=[None, 1], name="condition")
 
-    condition = build_input_features(condition)
+    condition = list(build_input_features(input_condition).values())
 
     inputs_list = list(features.values())
 
