@@ -28,7 +28,7 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-    data['uid_cross_music_id'] = data.apply()
+    data['uid_cross_music_id'] = data.apply(uid_cross_music_id)
 
     sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_music_id']
     dense_features = ['duration']
