@@ -65,7 +65,7 @@ if __name__ == "__main__":
                              for feat in dense_features]
 
     gate_feature_columns = [DenseFeat(feat, 1)
-                             for feat in dense_features]
+                             for feat in gate_features]
 
     # sparse_feature_columns = [SparseFeat(feat, dimension=int(1e6), use_hash=True) for feat in
     #                           sparse_features]  # The dimension can be set according to data
