@@ -27,7 +27,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_column
     print('yyyy')
     print(inputs_list)
     print('TTT')
-    print(sparse_embedding_list)
+    print(dense_value_list)
     print('rrrrr')
     print(gate)
 
