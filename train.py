@@ -102,7 +102,7 @@ if __name__ == "__main__":
     test_like_auc = metrics.roc_auc_score(test['like'], test['like_probability'])
     print('the auc of test finish')
     print(test_finish_auc)
-    print('the auc of tes like')
+    print('the auc of test like')
     print(test_like_auc)
 
     pred_ans = model.predict(train_model_input, batch_size=2 ** 10)
