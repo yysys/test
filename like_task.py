@@ -8,7 +8,7 @@ import keras
 from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]='5'
+os.environ["CUDA_VISIBLE_DEVICES"]='4'
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
