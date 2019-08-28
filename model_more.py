@@ -63,8 +63,8 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, condition, embeddin
 
     print(np.shape(like_logit1))
 
-    finish_logit = condition * finish_logit1 + (1.0-condition) * finish_logit2
-    like_logit = condition * like_logit1 + (1.0-condition) * like_logit2
+    finish_logit = condition * finish_logit1 # + (1.0-condition) * finish_logit2
+    like_logit = condition * like_logit1 # + (1.0-condition) * like_logit2
 
     print(np.shape(like_logit))
 
