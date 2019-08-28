@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     print('PPPP')
     print(linear_feature_columns, dnn_feature_columns, y_id_feature)
-    model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, y_id_feature)
+    model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns)
     model.compile("adagrad", loss={
                   'finish': "binary_crossentropy",
                   'like': "binary_crossentropy"},
