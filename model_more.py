@@ -24,8 +24,6 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_column
                                                                          l2_reg_embedding, init_std,
                                                                          seed)
     gate = get_dense_input(features, gate_feature_columns)[0]
-    print('ooooo')
-    print(gate)
 
     linear_logit = get_linear_logit(features, linear_feature_columns, l2_reg=l2_reg_linear, init_std=init_std,
                                     seed=seed, prefix='linear')
@@ -60,12 +58,8 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_column
 
     # condition = tf.placeholder("float32", shape=[None, 1], name="condition")
 
-    condition = list(build_input_features(input_condition).values())[0]
-    print('oooooooooooooooooooooo')
-    print(np.shape(condition))
-
-    finish_logit = condition * finish_logit1 + (1.0-condition) * finish_logit2
-    like_logit = condition * like_logit1 + (1.0-condition) * like_logit2
+    finish_logit = gate * finish_logit1 + (1.0-gate) * finish_logit2
+    like_logit = gate * like_logit1 + (1.0-gate) * like_logit2
 
     print(np.shape(like_logit))
 
