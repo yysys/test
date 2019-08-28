@@ -1,5 +1,5 @@
 import tensorflow as tf
-from deepctr.inputs import input_from_feature_columns, get_linear_logit,build_input_features,combined_dnn_input
+from deepctr.inputs import input_from_feature_columns, get_linear_logit,build_input_features,combined_dnn_input, get_dense_input
 # from deepctr.input_embedding import preprocess_input_embedding
 from deepctr.layers.core import DNN, PredictionLayer
 from deepctr.layers.interaction import CIN
@@ -23,13 +23,13 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_column
                                                                          embedding_size,
                                                                          l2_reg_embedding, init_std,
                                                                          seed)
-
+    gate = get_dense_input(features, gate_feature_columns)
     print('yyyy')
-    print(dense_value_list)
+    print(inputs_list)
     print('TTT')
     print(sparse_embedding_list)
     print('rrrrr')
-    print(features)
+    print(gate)
 
     linear_logit = get_linear_logit(features, linear_feature_columns, l2_reg=l2_reg_linear, init_std=init_std,
                                     seed=seed, prefix='linear')
