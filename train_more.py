@@ -63,7 +63,7 @@ if __name__ == "__main__":
     dense_feature_columns = [DenseFeat(feat, 1)
                              for feat in dense_features]
 
-    y_id_feature = [DenseFeat('g_region_id', 1)]
+    y_id_feature = [DenseFeat('y_id', 1)]
     # sparse_feature_columns = [SparseFeat(feat, dimension=int(1e6), use_hash=True) for feat in
     #                           sparse_features]  # The dimension can be set according to data
     # dense_feature_columns = [DenseFeat(feat, 1)
