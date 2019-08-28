@@ -9,7 +9,7 @@ from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]='7'
 
-loss_weights = [0.3, 0.7, ]  # [0.7,0.3]任务权重可以调下试试
+loss_weights = [0.2, 0.8, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
 
 def change_time(timeStamp):
