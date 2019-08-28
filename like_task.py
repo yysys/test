@@ -3,7 +3,7 @@ import time, datetime
 #from deepctr import SingleFeat
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import metrics
-from finish_model import xDeepFM_MTL
+from like_model import xDeepFM_MTL
 import keras
 from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
