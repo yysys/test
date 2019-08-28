@@ -30,7 +30,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, d
 
     if len(cin_layer_size) > 0:
         exFM_out = CIN(cin_layer_size, 'relu',
-                       cin_split_half, seed)(fm_input)
+                       cin_split_half, 0, seed)(fm_input)
         exFM_logit = tf.keras.layers.Dense(1, activation=None, )(exFM_out)
 
     dnn_input = combined_dnn_input(sparse_embedding_list, dense_value_list)
@@ -38,21 +38,13 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, d
     deep_out = DNN(dnn_hidden_units, dnn_activation, l2_reg_dnn, dnn_dropout,
                    dnn_use_bn, seed)(dnn_input)
 
-    finish_out = DNN(task_net_size)(deep_out)
-    finish_logit = tf.keras.layers.Dense(
-        1, use_bias=False, activation=None)(finish_out)
-
     like_out = DNN(task_net_size)(deep_out)
     like_logit = tf.keras.layers.Dense(
         1, use_bias=False, activation=None)(like_out)
 
-    finish_logit = tf.keras.layers.add(
-        [linear_logit, finish_logit, exFM_logit])
     like_logit = tf.keras.layers.add(
         [linear_logit, like_logit, exFM_logit])
 
-    output_finish = PredictionLayer('binary', name='finish')(finish_logit)
     output_like = PredictionLayer('binary', name='like')(like_logit)
-    model = tf.keras.models.Model(inputs=inputs_list, outputs=[
-                                  output_finish, output_like])
+    model = tf.keras.models.Model(inputs=inputs_list, outputs=output_like)
     return model
