@@ -23,7 +23,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_column
                                                                          embedding_size,
                                                                          l2_reg_embedding, init_std,
                                                                          seed)
-    gate = get_dense_input(features, gate_feature_columns).values()
+    gate = get_dense_input(features, gate_feature_columns)[0]
     print('ooooo')
     print(gate)
 
