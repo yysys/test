@@ -3,11 +3,11 @@ import time, datetime
 #from deepctr import SingleFeat
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn import metrics
-from model import xDeepFM_MTL
+from model_more import xDeepFM_MTL
 from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]='6'
+os.environ["CUDA_VISIBLE_DEVICES"]='7'
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
