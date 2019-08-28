@@ -57,9 +57,12 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, embedding_size=8, d
 
     condition = tf.placeholder("float32", shape=[None, 1], name="condition")
 
+    print(np.shape(like_logit1))
+
     finish_logit = condition * finish_logit1 + (1-condition) * finish_logit2
     like_logit = condition * like_logit1 + (1-condition) * like_logit2
 
+    print(np.shape(like_logit))
 
     finish_logit = tf.keras.layers.add(
         [linear_logit, finish_logit, exFM_logit])
