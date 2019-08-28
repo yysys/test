@@ -19,8 +19,6 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
 
     inputs_list = list(features.values())
 
-    print('ppppppp')
-    print(inputs_list)
     sparse_embedding_list, dense_value_list = input_from_feature_columns(features, dnn_feature_columns,
                                                                          embedding_size,
                                                                          l2_reg_embedding, init_std,
@@ -60,7 +58,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
     # condition = tf.placeholder("float32", shape=[None, 1], name="condition")
 
     condition = list(build_input_features(input_condition).values())
-
+    print('oooooooooooooooooooooo')
     print(np.shape(condition))
 
     finish_logit = condition * finish_logit1 # + (1.0-condition) * finish_logit2
