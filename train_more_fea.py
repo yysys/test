@@ -7,7 +7,7 @@ from model import xDeepFM_MTL
 from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]='6'
+os.environ["CUDA_VISIBLE_DEVICES"]='7'
 
 loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
 VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
@@ -21,6 +21,9 @@ def change_time(timeStamp):
 def uid_cross_music_id(piece):
     return str(piece['uid']) + '_' + str(piece['music_id'])
 
+def uid_cross_item_id(piece):
+    return str(piece['uid']) + '_' + str(piece['item_id'])
+
 if __name__ == "__main__":
     data = pd.read_csv('./data/bytecamp.data', sep=',', header=0)
    # Index(['duration', 'generate_time', 'finish', 'like', 'date', 'uid',
@@ -28,9 +31,10 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-    data['uid_cross_music_id'] = data.apply(uid_cross_music_id, axis=1)
+    #data['uid_cross_music_id'] = data.apply(uid_cross_music_id, axis=1)
+    data['uid_cross_item_id'] = data.apply(uid_cross_item_id, axis=1)
 
-    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_music_id']
+    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_item_id']
     dense_features = ['duration']
 
     data[sparse_features] = data[sparse_features].fillna('-1', )
