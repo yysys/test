@@ -25,10 +25,11 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-
+    data['gate'] = data['g_region_id']
 
     sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id']
     dense_features = ['duration']
+    gate_features = ['gate']
 
     data[sparse_features] = data[sparse_features].fillna('-1', )
     data[dense_features] = data[dense_features].fillna(0, )
@@ -63,7 +64,9 @@ if __name__ == "__main__":
     dense_feature_columns = [DenseFeat(feat, 1)
                              for feat in dense_features]
 
-    y_id_feature = [DenseFeat('y_id', 1)]
+    gate_feature_columns = [DenseFeat(feat, 1)
+                             for feat in dense_features]
+
     # sparse_feature_columns = [SparseFeat(feat, dimension=int(1e6), use_hash=True) for feat in
     #                           sparse_features]  # The dimension can be set according to data
     # dense_feature_columns = [DenseFeat(feat, 1)
@@ -72,7 +75,7 @@ if __name__ == "__main__":
     dnn_feature_columns = sparse_feature_columns + dense_feature_columns
     linear_feature_columns = sparse_feature_columns + dense_feature_columns
 
-    feature_names = get_fixlen_feature_names(linear_feature_columns + dnn_feature_columns)
+    feature_names = get_fixlen_feature_names(linear_feature_columns + dnn_feature_columns + gate_feature_columns)
 
     print(feature_names)
     train_model_input = [train[name] for name in feature_names]
@@ -80,8 +83,8 @@ if __name__ == "__main__":
     test_model_input = [test[name] for name in feature_names]
 
     print('PPPP')
-    print(linear_feature_columns, dnn_feature_columns, y_id_feature)
-    model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, y_id_feature)
+    print(linear_feature_columns, dnn_feature_columns)
+    model = xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_columns)
     model.compile("adagrad", loss={
                   'finish': "binary_crossentropy",
                   'like': "binary_crossentropy"},

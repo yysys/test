@@ -7,7 +7,7 @@ from deepctr.layers.utils import concat_fun
 import numpy as np
 
 
-def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(256, 256,),
+def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, gate_feature_columns, input_condition, embedding_size=8, dnn_hidden_units=(256, 256), cin_layer_size=(256, 256,),
                 cin_split_half=True, init_std=0.0001,l2_reg_dnn=0, dnn_dropout=0,dnn_activation='relu', dnn_use_bn=False,
                 task_net_size=(128,), l2_reg_linear=0.00001, l2_reg_embedding=0.00001,
                 seed=1024, ):
@@ -15,7 +15,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
     if len(task_net_size) < 1:
         raise ValueError('task_net_size must be at least one layer')
 
-    features = build_input_features(linear_feature_columns + dnn_feature_columns)
+    features = build_input_features(linear_feature_columns + dnn_feature_columns + gate_feature_columns)
 
     inputs_list = list(features.values())
 
@@ -23,6 +23,13 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
                                                                          embedding_size,
                                                                          l2_reg_embedding, init_std,
                                                                          seed)
+
+    print('yyyy')
+    print(dense_value_list)
+    print('TTT')
+    print(sparse_embedding_list)
+    print('rrrrr')
+    print(features)
 
     linear_logit = get_linear_logit(features, linear_feature_columns, l2_reg=l2_reg_linear, init_std=init_std,
                                     seed=seed, prefix='linear')
@@ -74,8 +81,6 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
     output_finish = PredictionLayer('binary', name='finish')(finish_logit)
     output_like = PredictionLayer('binary', name='like')(like_logit)
 
-    print('IIIII')
-    print(inputs_list)
-    model = tf.keras.models.Model(inputs=[inputs_list, condition], outputs=[
+    model = tf.keras.models.Model(inputs=inputs_list, outputs=[
                                   output_finish, output_like])
     return model
