@@ -57,7 +57,7 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
 
     # condition = tf.placeholder("float32", shape=[None, 1], name="condition")
 
-    condition = list(build_input_features(input_condition).values())
+    condition = list(build_input_features(input_condition).values())[0]
     print('oooooooooooooooooooooo')
     print(np.shape(condition))
 
