@@ -86,7 +86,7 @@ if __name__ == "__main__":
     print(train_labels)
 
     history = model.fit(train_model_input, train_labels,
-                        batch_size=4096, epochs=5, verbose=1, validation_split=0.1)
+                        batch_size=4096, epochs=2, verbose=1, validation_split=0.1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
