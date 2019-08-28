@@ -74,6 +74,8 @@ def xDeepFM_MTL(linear_feature_columns, dnn_feature_columns, input_condition, em
     output_finish = PredictionLayer('binary', name='finish')(finish_logit)
     output_like = PredictionLayer('binary', name='like')(like_logit)
 
+    print('IIIII')
+    print(inputs_list)
     model = tf.keras.models.Model(inputs=[inputs_list, condition], outputs=[
                                   output_finish, output_like])
     return model
