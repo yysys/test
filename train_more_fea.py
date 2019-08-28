@@ -31,10 +31,10 @@ if __name__ == "__main__":
    #       dtype='object')
     # data['time'] = data['generate_time'].apply(change_time)
 
-    data['uid_cross_music_id'] = data.apply(uid_cross_music_id, axis=1)
-    #data['uid_cross_item_id'] = data.apply(uid_cross_item_id, axis=1)
+    #data['uid_cross_music_id'] = data.apply(uid_cross_music_id, axis=1)
+    data['uid_cross_item_id'] = data.apply(uid_cross_item_id, axis=1)
 
-    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_music_id']
+    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_item_id']
     dense_features = ['duration']
 
     data[sparse_features] = data[sparse_features].fillna('-1', )
