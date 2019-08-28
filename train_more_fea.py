@@ -9,8 +9,8 @@ from deepctr.inputs import  SparseFeat, DenseFeat,get_fixlen_feature_names
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]='4'
 
-loss_weights = [1, 1, ]  # [0.7,0.3]任务权重可以调下试试
-VALIDATION_FRAC = 0.2  # 用做线下验证数据比例
+loss_weights = [0.7, 0.3, ]
+VALIDATION_FRAC = 0.2
 
 def change_time(timeStamp):
     dateArray = datetime.datetime.utcfromtimestamp(timeStamp)
@@ -36,9 +36,9 @@ if __name__ == "__main__":
 
     #data['uid_cross_music_id'] = data.apply(uid_cross_music_id, axis=1)
     #data['uid_cross_item_id'] = data.apply(uid_cross_item_id, axis=1)
-    data['uid_cross_author_id'] = data.apply(uid_cross_author_id, axis=1)
+    #data['uid_cross_author_id'] = data.apply(uid_cross_author_id, axis=1)
 
-    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id', 'uid_cross_author_id']
+    sparse_features = ['uid', 'u_region_id', 'item_id', 'author_id', 'music_id', 'g_region_id']
     dense_features = ['duration']
 
     data[sparse_features] = data[sparse_features].fillna('-1', )
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     print(train_labels)
 
     history = model.fit(train_model_input, train_labels,
-                        batch_size=4096, epochs=1, verbose=1, validation_split=0.1)
+                        batch_size=4096, epochs=2, verbose=1, validation_split=0.1)
     pred_ans = model.predict(test_model_input, batch_size=2 ** 10)
 
     # test_auc = metrics.roc_auc_score(test[], prodict_prob_y)
